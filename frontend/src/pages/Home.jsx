@@ -1,36 +1,25 @@
-import Counter from "../components/Counter";
-import logo from "../assets/logo.svg";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+import KnightCard from "../components/KnightCard";
 
 export default function Home() {
+  const [knights, setKnights] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/knights")
+      .then((res) => setKnights(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>Hello Vite + React !</p>
-
-      <Counter />
-
-      <p>
-        Edit <code>App.jsx</code> and save to test HMR updates.
-      </p>
-      <p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        {" | "}
-        <a
-          className="App-link"
-          href="https://vitejs.dev/guide/features.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Vite Docs
-        </a>
-      </p>
-    </header>
+    <div>
+      <ul>
+        {knights.map((knight) => (
+          <KnightCard key={knight.id} name={knight.name} age={knight.age} />
+        ))}
+      </ul>
+    </div>
   );
 }

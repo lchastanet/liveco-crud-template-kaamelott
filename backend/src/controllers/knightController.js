@@ -38,7 +38,7 @@ const create = (req, res) => {
   models.knight
     .insert(knight)
     .then(([result]) => {
-      res.json({ id: result.insertId, ...knight }).sendStatus(201);
+      res.status(201).json({ id: result.insertId, ...knight });
     })
     .catch((err) => {
       console.error(err);
